@@ -3,7 +3,8 @@ package service
 import (
 	"Week02/dao"
 	"context"
-	"errors"
+
+	"github.com/pkg/errors"
 )
 
 type UserInfoDTO struct {
@@ -39,9 +40,8 @@ func (userService *UserServiceImpl) QueryUser(ctx context.Context, email string)
 			Username: user.Username,
 			Email:    user.Email,
 		}, nil
+	} else {
+		return nil, errors.Wrap(err, "Service query failed!")
 	}
-	// else {
-	// 	log.Printf("err: %s", err)
-	// }
-	return nil, err
+
 }

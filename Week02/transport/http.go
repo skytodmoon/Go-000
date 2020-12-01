@@ -16,10 +16,12 @@ import (
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
+	"gorm.io/gorm"
 )
 
 var (
 	ErrorBadRequest = errors.New("invalid request parameter")
+	ErrorNoData     = errors.New("No data!")
 )
 
 func MakeHTTPHandler(ctx context.Context, endpoints *endpoint.UserEndpoints) http.Handler {
@@ -63,12 +65,15 @@ func encodeJSONResponse(ctx context.Context, w http.ResponseWriter, response int
 
 func encodeError(_ context.Context, err error, w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	fmt.Printf("Error:%+v\n", err)
 	switch err {
 	default:
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		err = ErrorNoData
+	}
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"error": err.Error(),
 	})
-	fmt.Printf("Error:%+v\n", err)
 }

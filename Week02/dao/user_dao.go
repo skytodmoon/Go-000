@@ -1,7 +1,6 @@
 package dao
 
 import (
-	//"errors"
 	"time"
 
 	"github.com/pkg/errors"
@@ -33,7 +32,7 @@ func (UserDAO *UserDAOImpl) SelectByEmail(email string) (*UserEntity, error) {
 	err := db.Where("email = ?", email).First(&user).Error
 	var e = errors.New("")
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		e = errors.Wrap(err, "Query failed!")
+		e = errors.Wrap(err, "Dao query failed!")
 	} else {
 		e = err
 	}
