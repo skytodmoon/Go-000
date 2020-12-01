@@ -34,7 +34,7 @@ func main() {
 	userService := service.MakeUserServiceImpl(&dao.UserDAOImpl{})
 
 	userEndpoints := &endpoint.UserEndpoints{
-		endpoint.MakeQueryUserEndpoint(userService),
+		QueryUserEndpoint: endpoint.MakeQueryUserEndpoint(userService),
 	}
 
 	r := transport.MakeHTTPHandler(ctx, userEndpoints)
