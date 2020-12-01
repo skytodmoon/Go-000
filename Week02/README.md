@@ -1,4 +1,4 @@
-作业说明
+项目配置说明
 连接mysql数据库
 默认用户名：root
 密码：mysql-password
