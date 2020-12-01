@@ -1,5 +1,6 @@
 项目配置说明
-连接mysql数据库
+数据库:mysql
+初始化数据库文件：initUser.sql
 默认用户名：root
 密码：mysql-password
 可以在main.go中修改为自己的数据库和密码
