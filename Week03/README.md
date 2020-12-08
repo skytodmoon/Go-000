@@ -26,3 +26,8 @@
 //			// do something
 //		})
 //
+
+Errorgroup 资料
+https://github.com/golang/sync/blob/09787c993a3a/errgroup/errgroup.go
+https://github.com/go-kratos/kratos/blob/76da31effb5ece597cff22e970816a5ddd7a7659/pkg/sync/errgroup/errgroup.go
+https://zhuanlan.zhihu.com/p/64983626

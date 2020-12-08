@@ -10,38 +10,30 @@ import (
 	"syscall"
 	"time"
 
-	//"github.com/go-kratos/kratos/pkg/sync/errgroup"
-	"golang.org/x/sync/errgroup"
+	"github.com/go-kratos/kratos/pkg/sync/errgroup"
 )
 
-// errgroup
-// https://github.com/golang/sync/blob/09787c993a3a/errgroup/errgroup.go
-// https://github.com/go-kratos/kratos/blob/76da31effb5ece597cff22e970816a5ddd7a7659/pkg/sync/errgroup/errgroup.go
-//https://zhuanlan.zhihu.com/p/64983626
 // 主动关闭服务器
 
 var server *http.Server
 
 func main() {
 
-	//g := errgroup.WithCancel(context.Background())
-	//g := errgroup.WithContext(context.Background())
-	//g, cancel := errgroup.WithContext(context.Background())
-	g := new(errgroup.Group)
+	g := errgroup.WithCancel(context.Background())
 
-	g.Go(func() error {
+	g.Go(func(ctx context.Context) error {
 		defer fmt.Println("finish errgroup1")
 		return serveSIG()
 	})
 	var doneErr error
 
-	g.Go(func() error {
+	g.Go(func(ctx context.Context) error {
 		defer fmt.Println("finish errgroup2")
 		serveApp()
-		// select {
-		// case <-ctx.Done():
-		// 	doneErr = ctx.Err()
-		// }
+		select {
+		case <-ctx.Done():
+			doneErr = ctx.Err()
+		}
 		return doneErr
 	})
 	g.Wait()
@@ -55,7 +47,7 @@ func main() {
 func serveApp() {
 	mux := http.NewServeMux()
 	mux.Handle("/", &myHandler{})
-	mux.HandleFunc("/bye", sayBye)
+	//mux.HandleFunc("/bye", sayBye)
 
 	server = &http.Server{
 		Addr:         ":8080",
@@ -65,19 +57,17 @@ func serveApp() {
 	log.Println("Starting v3 httpserver")
 	if err := server.ListenAndServe(); err != nil {
 		// 正常退出
-		if err == http.ErrServerClosed {
-			log.Fatal("Server closed under request")
-		} else {
-			log.Fatal("Server closed unexpected", err)
-		}
+		// if err == http.ErrServerClosed {
+		// 	log.Fatal("Server closed under request")
+		// } else {
+		// 	log.Fatal("Server closed unexpected", err)
+		// }
 	}
-	log.Fatal("Server exited")
 }
 
 func serveSIG() error {
 	// 一个通知退出的chan
 	quit := make(chan os.Signal)
-	//signal.Notify(quit, os.Interrupt)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 	// 接收退出信号
 	sign := <-quit
@@ -96,10 +86,10 @@ func (*myHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 //关闭http
-func sayBye(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("bye bye ,shutdown the server")) // 没有输出
-	log.Println("bye bye ,shutdown the server")
-	if err := server.Shutdown(context.Background()); err != nil {
-		log.Fatal("shutdown the server err:", err)
-	}
-}
+// func sayBye(w http.ResponseWriter, r *http.Request) {
+// 	w.Write([]byte("bye bye ,shutdown the server")) // 没有输出
+// 	log.Println("bye bye ,shutdown the server")
+// 	if err := server.Shutdown(context.Background()); err != nil {
+// 		log.Fatal("shutdown the server err:", err)
+// 	}
+// }
