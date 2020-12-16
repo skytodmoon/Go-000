@@ -1,3 +1,4 @@
+#To-Do:可以集成go-bindata/fsnotify 热更新配置
 Server:
   HttpPort: 8000
 Database:
