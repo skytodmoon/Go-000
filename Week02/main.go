@@ -27,7 +27,7 @@ func main() {
 	ctx := context.Background()
 	errChan := make(chan error)
 
-	err := dao.InitMysql("127.0.0.1", "3306", "root", "mysql-password", "user")
+	err := dao.InitMysql("127.0.0.1", "3306", "root", "rootroot", "user")
 	if err != nil {
 		log.Fatal(err)
 	}

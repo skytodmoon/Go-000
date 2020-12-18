@@ -1,13 +1,16 @@
 #To-Do:可以集成go-bindata/fsnotify 热更新配置
 Server:
+  RunMode: debug
   HttpPort: 8000
+  ReadTimeout: 60
+  WriteTimeout: 60
 Database:
   DBType: mysql
   UserName: root
   Password: rootroot
-  Host: 127.0.0.1:3306
+  Host: 127.0.0.1
+  Port:3306
   DBName: user
-  #TablePrefix: _
   Charset: utf8
   ParseTime: True
   MaxIdleConns: 10

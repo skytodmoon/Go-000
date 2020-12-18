@@ -3,6 +3,8 @@ package dao
 import (
 	"time"
 
+	"Week04/global"
+
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
@@ -29,7 +31,7 @@ type UserDAOImpl struct {
 
 func (UserDAO *UserDAOImpl) SelectByEmail(email string) (*UserEntity, error) {
 	user := &UserEntity{}
-	err := db.Where("email = ?", email).First(&user).Error
+	err := global.DBEngine.Where("email = ?", email).First(&user).Error
 	var e = errors.New("")
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		e = errors.Wrap(err, "Dao query failed!")
