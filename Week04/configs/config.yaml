@@ -7,9 +7,8 @@ Server:
 Database:
   DBType: mysql
   UserName: root
-  Password: rootroot
-  Host: 127.0.0.1
-  Port:3306
+  Password: 19860502
+  Host: 127.0.0.1:3306
   DBName: user
   Charset: utf8
   ParseTime: True

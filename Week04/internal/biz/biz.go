@@ -20,12 +20,13 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 	// 	databaseSetting.Charset,
 	// 	databaseSetting.ParseTime,
 	// ))
-	dsn := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s&parseTime=%t&loc=Local",
 		databaseSetting.UserName,
 		databaseSetting.Password,
 		databaseSetting.Host,
-		databaseSetting.Port,
 		databaseSetting.DBName,
+		databaseSetting.Charset,
+		databaseSetting.ParseTime,
 	)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

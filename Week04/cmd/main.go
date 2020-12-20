@@ -1,6 +1,7 @@
 package main
 
 import (
+	transport "Week04/api"
 	"Week04/global"
 	"Week04/internal/biz"
 	"Week04/internal/dao"
@@ -20,20 +21,22 @@ import (
 )
 
 func main() {
+
+	port, err := strconv.Atoi(global.ServerSetting.HttpPort)
+	if err != nil {
+		port = 10086
+	}
 	var (
 		// 服务地址和服务名
-		servicePort = flag.Int("service.port", 10086, "service port")
+		servicePort = flag.Int("service.port", port, "service port")
 	)
 
 	flag.Parse()
-
-	ctx := context.Background()
 	errChan := make(chan error)
 
-	err := dao.InitMysql("127.0.0.1", "3306", "root", "mysql-password", "user")
-	if err != nil {
-		log.Fatal(err)
-	}
+
+	ctx := context.Background()
+
 	userService := service.MakeUserServiceImpl(&dao.UserDAOImpl{})
 
 	userEndpoints := &endpoint.UserEndpoints{
@@ -65,13 +68,26 @@ var (
 )
 
 func init() {
+	err := setupFlag()
+	if err != nil {
+		log.Fatalf("init.setupFlag err: %v", err)
+	}
+	err = setupSetting()
+	if err != nil {
+		log.Fatalf("init.setupSetting err: %v", err)
+	}
+
+	err = setupDBEngine()
+	if err != nil {
+		log.Fatalf("init.setupDBEngine err: %v", err)
+	}
 
 }
 
 func setupFlag() error {
 	flag.StringVar(&port, "port", "", "启动端口")
 	flag.StringVar(&runMode, "mode", "", "启动模式")
-	flag.StringVar(&config, "config", "configs/", "指定要使用的配置文件路径")
+	flag.StringVar(&config, "config", "../configs/", "指定要使用的配置文件路径")
 	flag.BoolVar(&isVersion, "version", false, "编译信息")
 	flag.Parse()
 

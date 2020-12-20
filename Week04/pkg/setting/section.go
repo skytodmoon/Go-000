@@ -17,7 +17,6 @@ type DatabaseSettingS struct {
 	Password     string
 	Host         string
 	DBName       string
-	Port         string
 	TablePrefix  string
 	Charset      string
 	ParseTime    bool
