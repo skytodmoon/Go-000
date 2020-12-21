@@ -5,7 +5,7 @@ http:
   port: "8080"
   shutdown_timeout: 30
 mysql:
-  url: "root:19860502@tcp(127.0.0.1:3306)/user?charset=utf8mb4&parseTime=True&loc=Local"
+  url: "root:123456@tcp(127.0.0.1:3306)/user?charset=utf8mb4&parseTime=True&loc=Local"
   max_idle: 50
   max_open: 70
   max_leftTime: 60

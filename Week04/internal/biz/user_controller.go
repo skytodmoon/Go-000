@@ -2,6 +2,7 @@ package biz
 
 import (
 	"Week04/internal/service"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -26,5 +27,5 @@ func NewUserController(logger *logrus.Logger, userSvc *service.UserService) *Use
 // @Produce  json
 // @Router /user [post]
 func (u *UserController) Create(c *gin.Context) {
-
+	fmt.Println("test recall!")
 }

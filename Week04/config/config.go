@@ -30,16 +30,15 @@ type MysqlConfig struct {
 func NewConfig(path string) *Config {
 	v := viper.New()
 	v.SetConfigName("dev")
-	v.SetConfigType("yaml")
-	v.AddConfigPath("/config/")
 	v.AddConfigPath(".")
 	v.SetConfigFile(path)
+	v.SetConfigType("yaml")
 
 	if err := v.ReadInConfig(); err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s", err))
 	}
 	var conf Config
-	err := viper.Unmarshal(&conf)
+	err := v.Unmarshal(&conf)
 	if err != nil {
 		panic(fmt.Errorf("Could not unmarshal config: %s", err))
 	}
