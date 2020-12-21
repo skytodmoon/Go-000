@@ -5,11 +5,12 @@ import (
 	"Week04/internal/dao"
 	"context"
 
+	"github.com/google/wire"
 	"github.com/pkg/errors"
-
 )
 
-var Provider = wire.NewSet(NewService,wire.Bind(new()))
+var Provider = wire.NewSet(NewService, wire.Bind(new()))
+
 type Service struct {
 	dao dao.Dao
 }
