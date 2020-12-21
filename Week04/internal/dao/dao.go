@@ -1,22 +1,20 @@
 package dao
 
 import (
-	"Week04/internal/model"
-
-	"github.com/google/wire"
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
+	"github.com/sirupsen/logrus"
 )
 
-var Provider = wire.NewSet(NewDao, NewDBEngine)
-
-type Dao interface {
-	GetUser(email string) (*model.UserEntity, error)
+type Dao struct {
+	logger *logrus.Logger
+	db     *gorm.DB
 }
 
-type dao struct {
-	db *gorm.DB
+func NewDao(logger *logrus.Logger, db *gorm.DB) *Dao {
+	return &Dao{logger: logger, db: db}
 }
 
-func NewDao(db *gorm.DB) *dao {
-	return &dao{db: db}
+func (u *Dao) FindByUid(uid int) {
+	uid = 0
+	return
 }

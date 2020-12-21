@@ -1,0 +1,20 @@
+http:
+  run_model: "dev"
+  version: "1.0"
+  host: "0.0.0.0"
+  port: "8080"
+  shutdown_timeout: 30
+mysql:
+  url: "root:19860502@tcp(127.0.0.1:3306)/user?charset=utf8mb4&parseTime=True&loc=Local"
+  max_idle: 50
+  max_open: 70
+  max_leftTime: 60
+  debug: true
+logs:
+  filename: "logs/service_bussiness.log"
+  level: "dev"
+  max_size: 20
+  max_age: 7
+  max_backups: 3
+  compress: true
+
